@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3797269456867957447
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1655330031971262785}
+  - component: {fileID: 1608988433330389281}
+  m_Layer: 0
+  m_Name: SoldierWeapon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1655330031971262785
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3797269456867957447}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1608988433330389281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3797269456867957447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bb6d4fad22de49bb829342609826684, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapons:
+  - {fileID: 9153045535006003557, guid: 17e7f9568aa004c3780a4ca8b1321f66, type: 3}
+  - {fileID: 1226392643369606050, guid: 1a653b156c40f4e28a041d91d476a2e1, type: 3}
+  - {fileID: 3224898844186869602, guid: 1a0f4f46a0514403abeb167e13c9ccc3, type: 3}
+  - {fileID: 5856659820736660705, guid: b37479e84f312410cbcc6e22f08c9aa4, type: 3}
+  - {fileID: 7838516123678200244, guid: 6d44db7b53e7f4e0abc28be92f910e70, type: 3}
+  - {fileID: 6850273577206303780, guid: c3c34a4300dc34b6dbae2f4a123cf441, type: 3}
+  - {fileID: 6400451634228709232, guid: 75d31c0ec66f74513aaa9aefaeb76395, type: 3}
+  - {fileID: 8399917294910400036, guid: 293d34e40ebe547b88244c29a26f7705, type: 3}
+  - {fileID: 2089362188344799758, guid: 5c6c230a9c7f646f49a5b9506348eb2b, type: 3}
+  - {fileID: 8080359650385389531, guid: be8eb2fc9ab264a0483ce3036facdfe2, type: 3}
+  - {fileID: 4653081875146936187, guid: 4dd578063338448e7b9f68e189c36a35, type: 3}
+  - {fileID: 5856659820736660705, guid: 0144f2cb6bf0140aaa74e51f3befdf1e, type: 3}
+  - {fileID: 7838516123678200244, guid: ff535114907e34c9a92f00e4767d56f4, type: 3}
+  - {fileID: 9153045535006003557, guid: 64a0291844331413d801290fa038a9a0, type: 3}
+  - {fileID: 9153045535006003557, guid: 49306ef752187493b8a06aab3452ff66, type: 3}
+  - {fileID: 9153045535006003557, guid: e88e91fe56ea1451caa6795e3063d39c, type: 3}
+  - {fileID: 9153045535006003557, guid: 42e310eefe06f4281a6a0abfb0027922, type: 3}

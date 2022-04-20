@@ -1,0 +1,300 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"players_veh",
+				"players_vehicle_1"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/Fudgehead/Coding Files/Unity3D/Current Projects/Retro Combat Online/Assets/Scripts/websocket_server.py",
+		"/Users/Fudgehead/Coding Files/Unity3D/Development Assets/Websockets Project/websocket_server.py",
+		"/Users/Fudgehead/Coding Files/Unity3D/Finished Builds/Retro Combat 2/Assets/Scripts/SoldierController.cs",
+		"/Users/Fudgehead/Desktop/Pandas Functions Summary.py",
+		"/Users/Fudgehead/Coding Files/Unity3D/Current Projects/Retro Combat Online/Assets/Plugins/jswebsocket.jslib",
+		"/Users/Fudgehead/Coding Files/Websites/ExampleWebsite/css/harley.css",
+		"/Users/Fudgehead/Coding Files/Unity3D/Current Projects/Retro Combat Online/Assets/Scripts/ShareButton.cs",
+		"/Users/Fudgehead/Coding Files/Unity3D/Current Projects/Pathfinding Tests/Packages/manifest.json",
+		"/Users/Fudgehead/Coding Files/Unity3D/Current Projects/Retro Combat Online/Assets/Scripts/NetworkManager.cs",
+		"/Users/Fudgehead/Coding Files/Unity3D/Current Projects/Retro Combat Online/Assets/Scripts/servers_list_us.py",
+		"/Users/Fudgehead/Coding Files/Unity3D/Current Projects/Retro Combat Online/Assets/Scripts/servers_list_china.py",
+		"/Users/Fudgehead/Coding Files/Unity3D/Current Projects/Retro Combat Online/Assets/Scripts/servers_list_hk.py",
+		"/Users/Fudgehead/Coding Files/Unity3D/Finished Builds/Retro Combat 2/Assets/Scripts/StatisticsManager.cs",
+		"/Users/Fudgehead/Coding Files/Unity3D/Current Projects/Retro Combat Online/Packages/manifest.json",
+		"/Users/Fudgehead/Coding Files/Unity3D/Current Projects/Retro Combat Online/Assets/myMyPlayerPrefs.sav",
+		"/Users/Fudgehead/Desktop/andy_guessing_game.py",
+		"/Users/Fudgehead/Coding Files/Unity3D/Current Projects/COVID Health Checker/Assets/Scripts/mailer.py",
+		"/Users/Fudgehead/Desktop/test_examples.main.py",
+		"/Users/Fudgehead/Desktop/mailer.py",
+		"/Users/Fudgehead/Downloads/fastapi-mail-0.2.5/fastapi_mail/fastmail.py",
+		"/Users/Fudgehead/Desktop/fastapi-mail-0.1.2/fastapi_mail/fastmail.py",
+		"/Users/Fudgehead/Desktop/fastapi-mail-0.1.2/fastapi_mail/__init__.py",
+		"/Users/Fudgehead/Desktop/fastapi-mail-0.1.2/setup.py",
+		"/Users/Fudgehead/Desktop/Email_sender.py",
+		"/Users/Fudgehead/Desktop/serverkey.pem",
+		"/Users/Fudgehead/anaconda3/lib/python3.7/site-packages/pandas/__init__.py",
+		"/Users/Fudgehead/Coding Files/Unity3D/Current Projects/Pathfinding Tests/Assets/Scripts/PlayerData.cs",
+		"/Users/Fudgehead/Coding Files/Unity3D/Current Projects/Retro Combat Online/Assets/Scripts/servers_list.py",
+		"/Users/Fudgehead/Desktop/My_Builds/Shooter/index.html",
+		"/Users/Fudgehead/Coding Files/Python/New/05-04 (FastAPI Hosting)/ssl.py",
+		"/Users/Fudgehead/Coding Files/Python/New/05-04 (FastAPI Hosting)/Fastapi.py",
+		"/Users/Fudgehead/Coding Files/Python/New/05-08 (FastAPI Pydantic)/MainDoc.py",
+		"/Users/Fudgehead/Desktop/7-7.py",
+		"/Users/Fudgehead/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/com.tencent.xinWeChat/2.0b4.0.9/d475e394f52467be04edc64c59e3385a/Message/MessageTemp/d58ca1fdb962e326d04e4f58a7138054/File/longintrepr.h",
+		"/Users/Fudgehead/Coding Files/Unity3D/Finished Builds/Retro Combat 2/Assets/Scripts/GameController.cs",
+		"/Users/Fudgehead/Desktop/Shooter/index.html",
+		"/Users/Fudgehead/Coding Files/Unity3D/Current Projects/Retro Combat Online/Assets/WebGLTemplates/BetterTemplate/index.html",
+		"/Users/Fudgehead/Coding Files/Unity3D/Finished Builds/Retro Combat 2/Assets/Scripts/Gun.cs",
+		"/Users/Fudgehead/Desktop/testing.html",
+		"/Users/Fudgehead/Desktop/ladders_steps.py",
+		"/Users/Fudgehead/Desktop/ladders_steps",
+		"/Users/Fudgehead/Desktop/disk_usage",
+		"/Users/Fudgehead/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/com.tencent.xinWeChat/2.0b4.0.9/d475e394f52467be04edc64c59e3385a/Message/MessageTemp/d58ca1fdb962e326d04e4f58a7138054/File/test620-1.py",
+		"/Users/Fudgehead/Coding Files/Unity3D/Current Projects/Pathfinding Tests/Assets/Scripts/dataprocessing.py",
+		"/Users/Fudgehead/Desktop/websocket_server.py",
+		"/Users/Fudgehead/Desktop/Python/5-21 (FastAPI Websockets)/5-21&22.py",
+		"/Users/Fudgehead/Desktop/Python/5-27x29 (OAuth2)/Verification.py",
+		"/Users/Fudgehead/Desktop/Python/5-30 (OAuth2)/OAuthJWT.py",
+		"/Users/Fudgehead/Desktop/Verification.py",
+		"/Users/Fudgehead/Desktop/OAuthJWT.py",
+		"/Users/Fudgehead/Desktop/Verification",
+		"/Users/Fudgehead/anaconda3/lib/python3.7/site-packages/starlette/applications.py",
+		"/Users/Fudgehead/Desktop/Python/5-24/apps.py",
+		"/Users/Fudgehead/Desktop/publicchat.py",
+		"/Users/Fudgehead/Desktop/5-21.py",
+		"/Users/Fudgehead/Coding Files/Unity3D/Finished Builds/Cube Rush/Assets/Scripts/OnlineMapSearch.cs",
+		"/Users/Fudgehead/Desktop/PythonDailyHomework/5-14/sqlquery",
+		"/Users/Fudgehead/Desktop/PythonDailyHomework/5-11/sql_alchemy.py",
+		"/Users/Fudgehead/Desktop/sql_alchemy.py",
+		"/Users/Fudgehead/Desktop/sqlalchemy.py",
+		"/Users/Fudgehead/Desktop/sql.py",
+		"/Users/Fudgehead/Desktop/PythonDailyHomework/5-9/MainDocument.py",
+		"/Users/Fudgehead/Desktop/PythonDailyHomework/5-9/templates/index.html",
+		"/Users/Fudgehead/Desktop/PythonDailyHomework/5-9/templates/post.html",
+		"/Users/Fudgehead/Desktop/PythonDailyHomework/5-8/MainDoc.py",
+		"/Users/Fudgehead/Desktop/PythonDailyHomework/5-7/Main.py",
+		"/Users/Fudgehead/Desktop/PythonDailyHomework/5-4/templates/index.html",
+		"/Users/Fudgehead/Desktop/PythonDailyHomework/5-4/Templates/index.html",
+		"/Users/Fudgehead/Desktop/PythonDailyHomework/5-4",
+		"/Users/Fudgehead/Desktop/PythonDailyHomework/5-3.py",
+		"/Users/Fudgehead/Desktop/PythonDailyHomework/5_1/5-1FileCpy.py",
+		"/Users/Fudgehead/Desktop/PythonDailyHomework/5-1FileCpy.py",
+		"/untitled",
+		"/Users/Fudgehead/Desktop/root/world/stats/ca191428-830e-486f-abdb-7353c842ef8a.json",
+		"/Users/Fudgehead/Desktop/PythonDailyHomework/4-26/ChatHost.py",
+		"/Users/Fudgehead/Desktop/Python Daily Homework/4-20/4-20.py",
+		"/Users/Fudgehead/Desktop/4-19.py",
+		"/Users/Fudgehead/Desktop/4-18.py",
+		"/Users/Fudgehead/Desktop/specialfuncs.png",
+		"/Users/Fudgehead/Desktop/test",
+		"/Users/Fudgehead/Downloads/wordpress/wp-includes/js/dist/components.js",
+		"/Users/Fudgehead/Desktop/Python Daily Homework/strconcat.py",
+		"/Users/Fudgehead/Desktop/Python Daily Homework/4-8.py",
+		"/Users/Fudgehead/Desktop/Python Daily Homework/4-5.py",
+		"/Users/Fudgehead/Desktop/Python Daily Homework/4:5",
+		"/Users/Fudgehead/Coding Files/Unity3D/Finished Builds/Cube Rush/Assets/Scripts/EnemyNode.cs",
+		"/Users/Fudgehead/Coding Files/Unity3D/Finished Builds/Cube Rush/Assets/Scripts/UIAlignment.cs",
+		"/Users/Fudgehead/Coding Files/Unity3D/Finished Builds/Cube Rush/Assets/Scripts/MapEditor.cs",
+		"/Users/Fudgehead/Coding Files/Unity3D/Current Projects/Pathfinding Tests/Assets/Scripts/BinarySave.cs",
+		"/Users/Fudgehead/Desktop/HousePriceCalculator/Main.py",
+		"/Users/Fudgehead/Coding Files/Unity3D/Finished Builds/Armchair Commander/Assets/Scripts/Controller.cs",
+		"/Users/Fudgehead/Dropbox/Current Projects/Retro Combat 2/Assets/Scripts/AudioManager.cs",
+		"/Users/Fudgehead/Documents/Nicepage Templates/html/Downloads.html",
+		"/Users/Fudgehead/Coding Files/Unity3D/Current Projects/Retro Combat 2/Assets/Scripts/StatisticsManager.cs",
+		"/Users/Fudgehead/Desktop/full-screen-landing-page/dist/style.css",
+		"/Users/Fudgehead/Coding Files/Unity3D/Current Projects/Retro Combat 2/Temp/StagingArea/AndroidManifest-main.xml",
+		"/Users/Fudgehead/Coding Files/Unity3D/Current Projects/Retro Combat 2/Temp/gradleOut/src/main/AndroidManifest.xml",
+		"/Users/Fudgehead/Coding Files/Unity3D/Finished Builds/Retro Combat/Assets/Scripts/ReviewButton.cs",
+		"/Users/Fudgehead/Coding Files/Unity3D/Finished Builds/Retro Combat/Assets/Scripts/StartSceneController.cs",
+		"/Users/Fudgehead/Coding Files/Unity3D/Finished Builds/Cube Rush/Assets/Plugins/UnityPurchasing/script/IAPListener.cs",
+		"/Users/Fudgehead/Coding Files/Unity3D/Current Projects/Retro Combat 2/Assets/Plugins/UnityPurchasing/script/CodelessIAPStoreListener.cs",
+		"/Users/Fudgehead/Coding Files/Unity3D/Finished Builds/Cube Rush/Assets/Scripts/Shop3Manager.cs",
+		"/Users/Fudgehead/Coding Files/Corona/Random Shapes/main.lua",
+		"/Users/Fudgehead/Coding Files/Corona/Image/main.lua",
+		"/Users/Fudgehead/Coding Files/Unity3D/Finished Builds/Cube Rush/Assets/Scripts/BinarySaveSystem.cs",
+		"/Users/Fudgehead/Desktop/ValidBinarySearchTree#2.py",
+		"/Users/Fudgehead/Coding Files/Unity3D/Finished Builds/Retro Combat/Assets/Scripts/Tank.cs",
+		"/Users/Fudgehead/Coding Files/Unity3D/Finished Builds/Retro Combat/Assets/Scripts/Controller.cs",
+		"/Users/Fudgehead/Coding Files/Unity3D/Finished Builds/Retro Combat/Assets/Scripts/SoldierController.cs",
+		"/Users/Fudgehead/Downloads/Lecture25Code/PlayerController.cs",
+		"/Users/Fudgehead/Downloads/Caves/Block.cs",
+		"/Users/Fudgehead/Downloads/InterChunk/Block.cs",
+		"/Users/Fudgehead/Downloads/Utils/Chunk.cs",
+		"/Users/Fudgehead/Downloads/InterChunk/Chunk.cs",
+		"/Users/Fudgehead/Downloads/InterChunk/World.cs",
+		"/Users/Fudgehead/Downloads/ChunkCol/World.cs",
+		"/Users/Fudgehead/Downloads/Blocks-ChunksCullQuads/Block.cs",
+		"/Users/Fudgehead/Downloads/Blocks-ChunksCullQuads/Chunk.cs",
+		"/Users/Fudgehead/Downloads/Block-Chunk/Block.cs",
+		"/Users/Fudgehead/Desktop/CurrentStuff/Quad.cs",
+		"/Users/Fudgehead/Downloads/Create6Quads.cs",
+		"/Users/Fudgehead/Downloads/CreateQuads.cs",
+		"/Users/Fudgehead/Downloads/WorldController.cs",
+		"/Users/Fudgehead/Coding Files/Unity3D/Current Projects/Cube Rush/Assets/Scripts/AudioManager.cs",
+		"/Users/Fudgehead/Desktop/Cube Rush Publishing/CubeRush/index.html",
+		"/Users/Fudgehead/anaconda3/pkgs/anaconda-navigator-1.9.6-py37_0/lib/python3.7/site-packages/anaconda_navigator/static/images/vscode-icon-1024x1024.svg",
+		"/Users/Fudgehead/Coding Files/Unity3D/Finished Builds/FRC Robot Scouter 2019/Assets/Scripts/OnlineStatsTitleDisplayer.cs",
+		"/Users/Fudgehead/Desktop/test.json"
+	],
+	"find":
+	{
+		"height": 39.0
+	},
+	"find_in_files":
+	{
+		"height": 101.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 24.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 108.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "Packages/User/JSC.sublime-build",
+	"project": "websocket_server.sublime-project",
+	"replace":
+	{
+		"height": 44.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
