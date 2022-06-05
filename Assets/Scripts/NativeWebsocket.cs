@@ -67,13 +67,21 @@ public class NativeWebsocket : MonoBehaviour {
 
         if (!r.EndOfMessage) {
             lastWebsocket += Encoding.UTF8.GetString(buf.Array, 0, r.Count);
+            print("waiting");
             return;
         }
         
         string message = lastWebsocket + Encoding.UTF8.GetString(buf.Array, 0, r.Count);
-        if (message.Split('|').Length == 3) {
+
+        bool isJson = true;
+        try {
+            NetworkManager.Room roomTest = (NetworkManager.Room)MyJsonUtility.FromJson(typeof(NetworkManager.Room), message);
+        } catch {
+            isJson = false;
+        }
+        if (!isJson && message.Split('|').Length == 3) {
             networkMaster.ReceivedId(int.Parse(message.Split('|')[0]), int.Parse(message.Split('|')[1]), int.Parse(message.Split('|')[2]));
-        } else if (message != "invalid format") {
+        } else {
             networkMaster.UpdatePlayers(message);
         }
         //empty out

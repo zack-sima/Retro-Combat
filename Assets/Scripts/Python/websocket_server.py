@@ -12,21 +12,21 @@ server_password = ["retrocombat_admin"]
 
 class Room:
 	def remove_player(self, uid:int):
-		self.scores[uid] = None
-		self.players_shooting[uid] = None
-		self.players_dying[uid] = None
-		self.players_damaged[uid] = None
-		self.players_damaged_sender[uid] = None
-		self.players_moving[uid] = None
-		self.players_running[uid] = None
-		self.players_position[uid] = None
-		self.players_rotation[uid] = None
-		self.players_active[uid] = None
-		self.players_weapon[uid] = None
-		self.players_country[uid] = None
-		self.players_spine_rotation[uid] = None
-		self.players_crouch_rotation[uid] = None
-		self.players_pickup_rotation[uid] = None
+		del self.scores[uid]
+		del self.players_shooting[uid]
+		del self.players_dying[uid]
+		del self.players_damaged[uid]
+		del self.players_damaged_sender[uid]
+		del self.players_moving[uid]
+		del self.players_running[uid]
+		del self.players_position[uid]
+		del self.players_rotation[uid]
+		del self.players_active[uid]
+		del self.players_weapon[uid]
+		del self.players_country[uid]
+		del self.players_spine_rotation[uid]
+		del self.players_crouch_rotation[uid]
+		del self.players_pickup_rotation[uid]
 	def reset_server(self):
 		print("server stats reset")
 		self.recent_messages = []
@@ -355,7 +355,7 @@ async def server_websocket (websocket: WebSocket, rid: int, player_name: str, te
 				# return_text += leaderboards + "+"
 				# return_text += str(rooms[rid].timer[0])
 
-				rooms[rid].players_damaged[i] = 0 #reset damage to player after player received damage
+				#rooms[rid].players_damaged[i] = 0 #reset damage to player after player received damage
 
 				txt = rooms[rid].to_JSON().replace("\n", "")
 				await asyncio.wait_for(websocket.send_text(txt), 10)

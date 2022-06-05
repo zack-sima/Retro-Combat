@@ -478,18 +478,16 @@ public class NetworkManager : MonoBehaviour
             Dictionary<int, int> team1Scores = new Dictionary<int, int>();
             Dictionary<int, int> team2Scores = new Dictionary<int, int>();
 
+            team2Scores.Add(-1, r.scores["-1"]);
+            team2Scores.Add(-2, r.scores["-2"]);
             foreach (KeyValuePair<string, int> kv in r.scores) {
-                if (kv.Key == "-2") team2Scores.Add(-2, kv.Value);
-                else if (kv.Key == "-1") team2Scores.Add(-1, kv.Value);
-                else {
-                    try {
-                        if (int.Parse(kv.Key) % 2 == 0) {
-                            team1Scores.Add(int.Parse(kv.Key), kv.Value);
-                        } else {
-                            team2Scores.Add(int.Parse(kv.Key), kv.Value);
-                        }
-                    } catch { }
-                }
+                try {
+                    if (int.Parse(kv.Key) % 2 == 0) {
+                        team1Scores.Add(int.Parse(kv.Key), kv.Value);
+                    } else {
+                        team2Scores.Add(int.Parse(kv.Key), kv.Value);
+                    }
+                } catch { }
             }
             //foreach (string s in scoreboard) {
             //    if (s.Split('=').Length > 1) {
@@ -536,7 +534,17 @@ public class NetworkManager : MonoBehaviour
             }
             foreach (KeyValuePair<string, List<float>> kv in r.players_position) {
                 int pid = int.Parse(kv.Key);
-                if (pid != playerId) {
+                if (!playerInformation.ContainsKey(pid) && pid != playerId) {
+                    playerInformation.Add(pid, new SoldierData());
+                    playerInformation[pid].player = Instantiate(playerPrefab).GetComponent<SoldierAnimator>();
+                    playerInformation[pid].player.soldierCountry = (SoldierCountry)r.players_country[kv.Key];
+                    playerInformation[pid].player.playerId = pid; //assign id
+                    playerInformation[pid].player.masterController = this;
+                    playerInformation[pid].position = new Vector3(r.players_position[kv.Key][0], r.players_position[kv.Key][1], r.players_position[kv.Key][2]);
+                    playerInformation[pid].player.playerTeam = pid % 2;
+                    playerInformation[pid].online = true;
+                    playerInformation[pid].UpdatePlayer(callTime * 2.5f, firstTime);
+                } else if (pid != playerId && playerInformation.ContainsKey(pid)) {
                     playerInformation[pid].position = new Vector3(kv.Value[0], kv.Value[1], kv.Value[2]);
                     playerInformation[pid].rotation = new Vector3(r.players_rotation[kv.Key][0], r.players_rotation[kv.Key][1], r.players_rotation[kv.Key][2]);
                     playerInformation[pid].moving = r.players_moving[kv.Key] == 1;
@@ -596,23 +604,16 @@ public class NetworkManager : MonoBehaviour
                     playerInformation[pid].online = true;
                     playerInformation[pid].UpdatePlayer(callTime * 2.5f, firstTime);
 
-                    if (r.players_country[kv.Key] != -1) {
-                        playerInformation.Add(pid, new SoldierData());
-                        playerInformation[pid].player = Instantiate(playerPrefab).GetComponent<SoldierAnimator>();
-                        playerInformation[pid].player.soldierCountry = (SoldierCountry)r.players_country[kv.Key];
-                        playerInformation[pid].player.playerId = pid; //assign id
-                        playerInformation[pid].player.masterController = this;
-                        playerInformation[pid].position = new Vector3(r.players_position[kv.Key][0], r.players_position[kv.Key][1], r.players_position[kv.Key][2]);
-                        playerInformation[pid].player.playerTeam = pid % 2;
-                        playerInformation[pid].online = true;
-                        playerInformation[pid].UpdatePlayer(callTime * 2.5f, firstTime);
-                    }
-                } else if (r.players_damaged[kv.Key] > 0) {
+                    
+                } else if (pid == playerId && r.players_damaged[kv.Key] > 0) {
+                    print("take damage");
                     //player
                     float damage = r.players_damaged[kv.Key];
 
                     int senderId = r.players_damaged_sender[kv.Key];
                     string sender = r.players_active[senderId.ToString()];
+
+                    player.damagedTargets.Add(playerId, -damage); //instead of just removing the damage, reduce the damage by this much
 
                     if (damage > 0 && !player.dying && player.immuneTimer <= 0f) {
                         print("damaged: " + damage + " by " + sender);
