@@ -25,13 +25,16 @@ app.add_middleware(
 
 servers = {
 
-"us.retrocombat.com:8000/0":"US West 1",
-"us.retrocombat.com:8000/1":"US West 2",
-"us.retrocombat.com:8000/2":"US West 3",
-"us.retrocombat.com:8000/3":"US West 4",
-"us.retrocombat.com:8000/4":"US West 5",
-"us.retrocombat.com:8000/5":"US West 6",
-"us.retrocombat.com:8000/6":"US West 7",
+"47.88.27.128:8000/0":"US West 1",
+"47.88.27.128:8000/1":"US West 2",
+"47.88.27.128:8000/2":"US West 3",
+"47.88.27.128:8000/3":"US West 4",
+"47.88.27.128:8000/4":"US West 5",
+"47.88.27.128:8000/5":"US West 6",
+"47.88.27.128:8000/6":"US West 7",
+"47.88.27.128:8000/7":"US West 8",
+"47.88.27.128:8000/8":"US West 9",
+"47.88.27.128:8000/9":"US West 10",
 
 
 }

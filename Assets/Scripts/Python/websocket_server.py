@@ -1,15 +1,15 @@
 #coding=utf-8
 from fastapi import FastAPI
 import time
-
-
-
+from fastapi.middleware.cors import CORSMiddleware
 from starlette.websockets import WebSocket
 import uvicorn
 import sys
 import asyncio, threading
 import random
+import json
 server_password = ["retrocombat_admin"]
+
 class Room:
 	def remove_player(self, uid:int):
 		self.scores[uid] = None
@@ -96,6 +96,8 @@ class Room:
 					self.timer[2] = 780
 		self.timer[2] = self.timer[1]
 		self.timer[1] = self.timer[0]
+	def to_JSON(self):
+		return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=0, separators=(',',':'))
 
 
 #initial servers setup
@@ -107,13 +109,6 @@ else:
 		#print(int(sys.argv[index + 1]))
 		rooms.append(Room(int(sys.argv[index * 2 + 1]), int(sys.argv[index * 2 + 2])))
 
-
-
-
-
-
-
-
 def server_countdown_initialize():
 	ticker = threading.Event()
 	while not ticker.wait(1):
@@ -121,7 +116,6 @@ def server_countdown_initialize():
 			i.server_countdown()
 threading.Thread(target=server_countdown_initialize).start()
 app = FastAPI()
-from fastapi.middleware.cors import CORSMiddleware
 
 @app.get("/add_room") #did not implement remove room as there doesn't seem to be a need of it yet
 #adds a room
@@ -130,7 +124,7 @@ async def add_rooms(map_id: int, gamemode: int, password:str):
 		rooms.append(Room(map_id, gamemode))
 		print("room added")
 	else:
-		print("roomcannotbeaddedexceptionbecausepasswordk is wrong")
+		print("room cannot be added because password is wrong")
 origins = [
     "*"
 ]
@@ -221,7 +215,7 @@ async def server_websocket (websocket: WebSocket, rid: int, player_name: str, te
 			rooms[rid].players_rotation[i] = [0, 0, 0]
 			rooms[rid].players_moving[i] = 0
 			rooms[rid].players_running[i] = 0
-			rooms[rid].players_shooting[i] = 0 #this is updated to add a random string behind it (when this update is detected locally one shot is fired)
+			rooms[rid].players_shooting[i] = "0" #this is updated to add a random string behind it (when this update is detected locally one shot is fired)
 			rooms[rid].players_weapon[i] = "0"
 			rooms[rid].players_country[i] = -1
 			rooms[rid].players_damaged[i] = 0
@@ -314,58 +308,61 @@ async def server_websocket (websocket: WebSocket, rid: int, player_name: str, te
 					elif (rooms[rid].players_vehicle[i] == 2): #airplane properties
 						rooms[rid].players_vehicle_1[i] = int(datas[18])
 						rooms[rid].players_vehicle_2[i] = float(datas[19])
+						rooms[rid].players_vehicle_3[i] = 0
 
 				except: #no vehicle information could be found
 					print("old version without vehicle properties")
 					rooms[rid].players_vehicle[i] = 0
 
 
-				return_text = ""
-				#print(rooms[rid].players_shooting.items())
-				for key, value in rooms[rid].players_position.items():
-					if (rooms[rid].players_position[key] != None):
-						temp_text = hex(key)[2] + "=" + str(value[0]) + "=" + str(value[1]) + "=" + str(value[2]) + "="
-						temp_text += str(rooms[rid].players_rotation[key][0]) + "=" + str(rooms[rid].players_rotation[key][1]) + "=" + str(rooms[rid].players_rotation[key][2]) + "="
-						temp_text += str(rooms[rid].players_moving[key]) + "=" + str(rooms[rid].players_shooting[key]) + "=" + str(rooms[rid].players_running[key]) + "="
+				# return_text = ""
+				# #print(rooms[rid].players_shooting.items())
+				# for key, value in rooms[rid].players_position.items():
+				# 	if (rooms[rid].players_position[key] != None):
+				# 		temp_text = hex(key)[2] + "=" + str(value[0]) + "=" + str(value[1]) + "=" + str(value[2]) + "="
+				# 		temp_text += str(rooms[rid].players_rotation[key][0]) + "=" + str(rooms[rid].players_rotation[key][1]) + "=" + str(rooms[rid].players_rotation[key][2]) + "="
+				# 		temp_text += str(rooms[rid].players_moving[key]) + "=" + str(rooms[rid].players_shooting[key]) + "=" + str(rooms[rid].players_running[key]) + "="
 						
-						temp_text += str(rooms[rid].players_weapon[key]) + "=" + str(rooms[rid].players_country[key]) + "=" + str(rooms[rid].players_damaged[key]) + "|"
-						try:
-							temp_text += str(rooms[rid].players_active[rooms[rid].players_damaged_sender[key]]) + "|"
-						except:
-							temp_text += "nul|"
-						temp_text += str(rooms[rid].players_damaged_sender[key]) + "="
-						temp_text += str(rooms[rid].players_dying[key]) + "=" + str(rooms[rid].players_spine_rotation[key]) + "=" + str(rooms[rid].players_crouch_rotation[key])+ "="
-						temp_text += str(rooms[rid].players_active[key]) + "=" + str(rooms[rid].players_pickup_rotation[key]) + "=" + str(rooms[rid].players_vehicle[key]) + "=" + str(rooms[rid].players_vehicle_1[key]) + "=" + str(rooms[rid].players_vehicle_2[key]) +"=" + str(rooms[rid].players_vehicle_3[key])+ "+"
-						return_text += temp_text
+				# 		temp_text += str(rooms[rid].players_weapon[key]) + "=" + str(rooms[rid].players_country[key]) + "=" + str(rooms[rid].players_damaged[key]) + "|"
+				# 		try:
+				# 			temp_text += str(rooms[rid].players_active[rooms[rid].players_damaged_sender[key]]) + "|"
+				# 		except:
+				# 			temp_text += "nul|"
+				# 		temp_text += str(rooms[rid].players_damaged_sender[key]) + "="
+				# 		temp_text += str(rooms[rid].players_dying[key]) + "=" + str(rooms[rid].players_spine_rotation[key]) + "=" + str(rooms[rid].players_crouch_rotation[key])+ "="
+				# 		temp_text += str(rooms[rid].players_active[key]) + "=" + str(rooms[rid].players_pickup_rotation[key]) + "=" + str(rooms[rid].players_vehicle[key]) + "=" + str(rooms[rid].players_vehicle_1[key]) + "=" + str(rooms[rid].players_vehicle_2[key]) +"=" + str(rooms[rid].players_vehicle_3[key])+ "+"
+				# 		return_text += temp_text
 				
-				messages = ""
-				for ind, s in enumerate(rooms[rid].recent_messages):
-					messages += s
-					if ind < len(rooms[rid].recent_messages) - 1:
-						messages += "|"
-				return_text += messages + "+"
-				leaderboards = ""
-				index = 0
-				for ind, val in rooms[rid].scores.items():
-					if (val != None):
-						if (ind >= 0): #player kills
-							leaderboards += str(ind) + "=" + str(val)
-						elif (ind == -1): #team kills
-							leaderboards += "-1" + "=" + str(val)
-						elif (ind == -2):
-							leaderboards += "-2" + "=" + str(val)
-						if index < len(rooms[rid].scores) - 1:
-							leaderboards += "|"
-					index += 1
-				return_text += leaderboards + "+"
-				return_text += str(rooms[rid].timer[0])
-				#print(leaderboards)
+				# messages = ""
+				# for ind, s in enumerate(rooms[rid].recent_messages):
+				# 	messages += s
+				# 	if ind < len(rooms[rid].recent_messages) - 1:
+				# 		messages += "|"
+				# return_text += messages + "+"
+				# leaderboards = ""
+				# index = 0
+				# for ind, val in rooms[rid].scores.items():
+				# 	if (val != None):
+				# 		if (ind >= 0): #player kills
+				# 			leaderboards += str(ind) + "=" + str(val)
+				# 		elif (ind == -1): #team kills
+				# 			leaderboards += "-1" + "=" + str(val)
+				# 		elif (ind == -2):
+				# 			leaderboards += "-2" + "=" + str(val)
+				# 		if index < len(rooms[rid].scores) - 1:
+				# 			leaderboards += "|"
+				# 	index += 1
+				# return_text += leaderboards + "+"
+				# return_text += str(rooms[rid].timer[0])
 
 				rooms[rid].players_damaged[i] = 0 #reset damage to player after player received damage
-				await asyncio.wait_for(websocket.send_text(return_text), 7.1)
+
+				txt = rooms[rid].to_JSON().replace("\n", "")
+				await asyncio.wait_for(websocket.send_text(txt), 10)
+				#await asyncio.wait_for(websocket.send_text(return_text), 7.1)
 			else:
 				print("format error on id " + str(i) + "in room " + str(rid))
-				await asyncio.wait_for(websocket.send_text("invalid format"), 7.2)
+				await asyncio.wait_for(websocket.send_text("invalid format"), 10)
 
 	except Exception as E:
 

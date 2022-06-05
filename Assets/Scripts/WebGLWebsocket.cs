@@ -27,6 +27,7 @@ public class WebGLWebsocket : MonoBehaviour {
         WebSocketClose();
     }
     public void ReceivedWebsocket(string message) {
+        //code is here
         if (message.Split('|').Length == 3) {
             networkMaster.ReceivedId(int.Parse(message.Split('|')[0]), int.Parse(message.Split('|')[1]), int.Parse(message.Split('|')[2]));
         } else if (message != "invalid format") {

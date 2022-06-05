@@ -52,7 +52,7 @@ public class SoldierData {
 public class NetworkManager : MonoBehaviour
 {
     Uri u;
-    public bool localNetworking;
+    private bool localNetworking = false;
     public bool isMobile = false;
 
 
@@ -99,8 +99,6 @@ public class NetworkManager : MonoBehaviour
     [HideInInspector]
     public int killerId = -1, gameMode = -1;
     public AudioSource hitMarker;
-
-
 
 
     public void RideVehicle() {
@@ -408,8 +406,39 @@ public class NetworkManager : MonoBehaviour
             yield return null;
         player.RespawnPlayer();
     }
+    //JSON class
+    public class Room {
+        public List<string> recent_messages;
+        public List<int> gamemode;
+        //NOTE: ALL DICTIONARY KEYS ARE AUTOMATICALLY CONVERTED TO STRINGS IN PYTHON
+        public Dictionary<string, int> scores;
+        public Dictionary<string, string> players_shooting;
+        public Dictionary<string, int> players_dying;
+        public Dictionary<string, float> players_damaged;
+        public Dictionary<string, int> players_damaged_sender;
+        public Dictionary<string, string> players_active;
+        public Dictionary<string, int> players_moving;
+        public Dictionary<string, int> players_running;
+        public Dictionary<string, List<float>> players_position;
+        public Dictionary<string, List<float>> players_rotation;
+        public Dictionary<string, string> players_weapon;
+        public Dictionary<string, int> players_country;
+        public Dictionary<string, float> players_spine_rotation;
+        public Dictionary<string, float> players_crouch_rotation;
+        public Dictionary<string, float> players_pickup_rotation;
+        public Dictionary<string, int> players_vehicle;
+        public Dictionary<string, int> players_vehicle_1;
+        public Dictionary<string, float> players_vehicle_2;
+        public Dictionary<string, float> players_vehicle_3;
+        public List<int> map_id;
+        public List<int> timer;
+        public List<string> server_version;
+    }
     public void UpdatePlayers(string str) {
-//        print(str);
+        print(str);
+        Room r = (Room)MyJsonUtility.FromJson(typeof(Room), str);
+        //print(MyJsonUtility.ToJson(typeof(Room), r));
+        
         try {
             deltaGameTimer = gameTimer;
             deltaLatency = 0f;
@@ -418,10 +447,13 @@ public class NetworkManager : MonoBehaviour
             score1.text = "";
             score2.text = "";
 
-            string[] cutList = str.Split('+');
-            string[] messages = cutList[cutList.Length - 3].Split('|');
-            string[] scoreboard = cutList[cutList.Length - 2].Split('|');
-            int time = int.Parse(cutList[cutList.Length - 1]);
+            //string[] cutList = str.Split('+');
+            //string[] messages = cutList[cutList.Length - 3].Split('|');
+            List<string> messages = r.recent_messages;
+            //string[] scoreboard = cutList[cutList.Length - 2].Split('|');
+            //int time = int.Parse(cutList[cutList.Length - 1]);
+            //gameTimer = time;
+            int time = r.timer[0];
             gameTimer = time;
             if (deltaGameTimer < 0 && gameTimer > 0) {
                 //respawn player
@@ -446,30 +478,35 @@ public class NetworkManager : MonoBehaviour
             Dictionary<int, int> team1Scores = new Dictionary<int, int>();
             Dictionary<int, int> team2Scores = new Dictionary<int, int>();
 
-
-            foreach (string s in scoreboard) {
-                if (s.Split('=').Length > 1) {
-                    if (int.Parse(s.Split('=')[0]) == -1) {
-                        team1Scores.Add(int.Parse(s.Split('=')[0]), int.Parse(s.Split('=')[1]));
-                    } else if (int.Parse(s.Split('=')[0]) == -2) {
-                        team2Scores.Add(int.Parse(s.Split('=')[0]), int.Parse(s.Split('=')[1]));
-                    } else {
-                        if (int.Parse(s.Split('=')[0]) % 2 == 0) {
-                            team1Scores.Add(int.Parse(s.Split('=')[0]), int.Parse(s.Split('=')[1]));
+            foreach (KeyValuePair<string, int> kv in r.scores) {
+                if (kv.Key == "-2") team2Scores.Add(-2, kv.Value);
+                else if (kv.Key == "-1") team2Scores.Add(-1, kv.Value);
+                else {
+                    try {
+                        if (int.Parse(kv.Key) % 2 == 0) {
+                            team1Scores.Add(int.Parse(kv.Key), kv.Value);
                         } else {
-                            team2Scores.Add(int.Parse(s.Split('=')[0]), int.Parse(s.Split('=')[1]));
-
+                            team2Scores.Add(int.Parse(kv.Key), kv.Value);
                         }
-                    }
-
+                    } catch { }
                 }
             }
+            //foreach (string s in scoreboard) {
+            //    if (s.Split('=').Length > 1) {
+            //        if (int.Parse(s.Split('=')[0]) == -1) {
+            //            team1Scores.Add(int.Parse(s.Split('=')[0]), int.Parse(s.Split('=')[1]));
+            //        } else if (int.Parse(s.Split('=')[0]) == -2) {
+            //            team2Scores.Add(int.Parse(s.Split('=')[0]), int.Parse(s.Split('=')[1]));
+            //        } else {
+            //            if (int.Parse(s.Split('=')[0]) % 2 == 0) {
+            //                team1Scores.Add(int.Parse(s.Split('=')[0]), int.Parse(s.Split('=')[1]));
+            //            } else {
+            //                team2Scores.Add(int.Parse(s.Split('=')[0]), int.Parse(s.Split('=')[1]));
+            //            }
+            //        }
+            //    }
+            //}
             IterateKeyValuePair(team1Scores);
-
-
-
-
-
             IterateKeyValuePair(team2Scores);
 
             string msg = "";
@@ -492,99 +529,90 @@ public class NetworkManager : MonoBehaviour
             msg = msg.Substring(0, msg.Length - 1);
             messageBox.text = msg;
             //messageBox.GetComponent<RectTransform>().sizeDelta = new Vector3(300f, messageBox.flexibleHeight);
-            cutList[cutList.Length - 2] = ""; //remove messages from list of informations
+            //cutList[cutList.Length - 2] = ""; //remove messages from list of informations
 
             foreach (int key in playerInformation.Keys) {
                 playerInformation[key].online = false;
             }
-            foreach (string s in cutList) {
-                string[] infos = s.Split('=');
-                int pid = 0;
-                try {
-                    pid = Convert.ToInt32("0x" + infos[0], 16);
-                } catch {
-                    //print(infos[0]);
-                }
-                if (infos.Length > 2 && pid != playerId) { //legitimate information, not player
-                    if (playerInformation.ContainsKey(pid)) {
-                        playerInformation[pid].position = new Vector3(float.Parse(infos[1]), float.Parse(infos[2]), float.Parse(infos[3]));
-                        playerInformation[pid].rotation = new Vector3(float.Parse(infos[4]), float.Parse(infos[5]), float.Parse(infos[6]));
-                        playerInformation[pid].moving = int.Parse(infos[7]) == 1;
-                        playerInformation[pid].running = int.Parse(infos[9]) == 1;
-                        playerInformation[pid].weapon = int.Parse(infos[10].Substring(1));
-                        playerInformation[pid].player.attachmentPrefabId = int.Parse(infos[10][0].ToString());
-                        //if (playerInformation[pid].player.instantiatedGun != null && playerInformation[pid].player.instantiatedGun.attachment != playerInformation[pid].player.attachmentPrefabId) {
-                        //    playerInformation[pid].player.instantiatedGun.attachment = playerInformation[pid].player.attachmentPrefabId;
-                        //    playerInformation[pid].player.instantiatedGun.UpdateAttachments(playerInformation[pid].player.instantiatedGun.attachment);
-                        //}
-                        //print(playerInformation[pid].player.attachmentPrefabId);
-                        playerInformation[pid].dying = int.Parse(infos[13]) == 1;
-                        playerInformation[pid].spineRotation = float.Parse(infos[14]);
-                        playerInformation[pid].crouchRotation = float.Parse(infos[15]);
-                        playerInformation[pid].playerName = infos[16];
-                        playerInformation[pid].pickupGunRotation = float.Parse(infos[17]);
-                        int vehicleType = int.Parse(infos[18]);
-                        if (vehicleType > 0) { //is vehicle
-                            if (vehicleType == 1) {
-                                if (!playerInformation[pid].player.isVehicle) { //put player in tank
-                                    playerInformation[pid].player.nearbyTank = map.tanks[int.Parse(infos[19])];
-                                    playerInformation[pid].player.RideVehicle();
-                                } else {
-                                    Transform ht = playerInformation[pid].player.nearbyTank.tankSetUp.tankHead.transform;
-                                    ht.eulerAngles = new Vector3(ht.eulerAngles.x, float.Parse(infos[20]), ht.eulerAngles.z);
-                                    playerInformation[pid].player.nearbyTank.tankSetUp.tankTurret.transform.localEulerAngles = new Vector3(float.Parse(infos[21]), 0f, 0f);
-                                }
-                            } else if (vehicleType == 2) {
-                                if (!playerInformation[pid].player.isVehicle) { //put player in tank
-                                    playerInformation[pid].player.nearbyPlane = map.airplanes[int.Parse(infos[19])];
-                                    playerInformation[pid].player.RideVehicle();
-                                } else {
-                                    playerInformation[pid].player.nearbyPlane.planeSetUp.currentSpeed = float.Parse(infos[20]);
-                                }
-                            } else if (vehicleType == 3) { //blow up vehicle
-                                if (playerInformation[pid].player.isVehicle) { //put player in tank
-                                    if (playerInformation[pid].player.isPlane) {
-                                        playerInformation[pid].player.nearbyPlane.BlowUp();
-                                    } else {
-                                        playerInformation[pid].player.nearbyTank.BlowUp();
-                                    }
-                                    playerInformation[pid].player.ExitVehicle(true);
-                                }
-                            }
-                        } else { //check to get out of tank
-                            if (playerInformation[pid].player.isVehicle) {
+            foreach (KeyValuePair<string, List<float>> kv in r.players_position) {
+                int pid = int.Parse(kv.Key);
+                if (pid != playerId) {
+                    playerInformation[pid].position = new Vector3(kv.Value[0], kv.Value[1], kv.Value[2]);
+                    playerInformation[pid].rotation = new Vector3(r.players_rotation[kv.Key][0], r.players_rotation[kv.Key][1], r.players_rotation[kv.Key][2]);
+                    playerInformation[pid].moving = r.players_moving[kv.Key] == 1;
+                    playerInformation[pid].running = r.players_running[kv.Key] == 1;
+                    playerInformation[pid].dying = r.players_dying[kv.Key] == 1;
 
+                    //TODO: remake the weapons system so it's not only one-digit allowed
+                    playerInformation[pid].weapon = int.Parse(r.players_weapon[kv.Key].Substring(1));
+                    playerInformation[pid].player.attachmentPrefabId = int.Parse(r.players_weapon[kv.Key][0].ToString());
+
+                    playerInformation[pid].spineRotation = r.players_spine_rotation[kv.Key];
+                    playerInformation[pid].crouchRotation = r.players_crouch_rotation[kv.Key];
+                    playerInformation[pid].pickupGunRotation = r.players_pickup_rotation[kv.Key];
+
+                    playerInformation[pid].playerName = r.players_active[kv.Key];
+
+                    int vehicleType = r.players_vehicle[kv.Key];
+
+                    if (vehicleType > 0) { //is vehicle
+                        if (vehicleType == 1) {
+                            if (!playerInformation[pid].player.isVehicle) { //put player in tank
+                                playerInformation[pid].player.nearbyTank = map.tanks[r.players_vehicle_1[kv.Key]];
+                                playerInformation[pid].player.RideVehicle();
+                            } else {
+                                Transform ht = playerInformation[pid].player.nearbyTank.tankSetUp.tankHead.transform;
+                                ht.eulerAngles = new Vector3(ht.eulerAngles.x, r.players_vehicle_2[kv.Key], ht.eulerAngles.z);
+                                playerInformation[pid].player.nearbyTank.tankSetUp.tankTurret.transform.localEulerAngles = new Vector3(r.players_vehicle_3[kv.Key], 0f, 0f);
+                            }
+                        } else if (vehicleType == 2) {
+                            if (!playerInformation[pid].player.isVehicle) { //put player in tank
+                                playerInformation[pid].player.nearbyPlane = map.airplanes[r.players_vehicle_1[kv.Key]];
+                                playerInformation[pid].player.RideVehicle();
+                            } else {
+                                playerInformation[pid].player.nearbyPlane.planeSetUp.currentSpeed = r.players_vehicle_2[kv.Key];
+                            }
+                        } else if (vehicleType == 3) { //blow up vehicle
+                            if (playerInformation[pid].player.isVehicle) { //put player in tank
+                                if (playerInformation[pid].player.isPlane) {
+                                    playerInformation[pid].player.nearbyPlane.BlowUp();
+                                } else {
+                                    playerInformation[pid].player.nearbyTank.BlowUp();
+                                }
                                 playerInformation[pid].player.ExitVehicle(true);
                             }
                         }
+                    } else { //check to get out of tank
+                        if (playerInformation[pid].player.isVehicle) {
 
-                        if (infos[8] != "0") {
-                            playerInformation[pid].shootingCount = int.Parse(infos[8].Split('|')[0]);
-                            playerInformation[pid].shootingCode = int.Parse(infos[8].Split('|')[1]);
+                            playerInformation[pid].player.ExitVehicle(true);
                         }
-                        playerInformation[pid].online = true;
-                        playerInformation[pid].UpdatePlayer(callTime * 2.5f, firstTime);
+                    }
 
+                    if (r.players_shooting[kv.Key] != "0") {
+                        playerInformation[pid].shootingCount = int.Parse(r.players_shooting[kv.Key].Split('|')[0]);
+                        playerInformation[pid].shootingCode = int.Parse(r.players_shooting[kv.Key].Split('|')[1]);
+                    }
+                    playerInformation[pid].online = true;
+                    playerInformation[pid].UpdatePlayer(callTime * 2.5f, firstTime);
 
-                    } else if (int.Parse(infos[10 + 1]) != -1) {
+                    if (r.players_country[kv.Key] != -1) {
                         playerInformation.Add(pid, new SoldierData());
                         playerInformation[pid].player = Instantiate(playerPrefab).GetComponent<SoldierAnimator>();
-                        playerInformation[pid].player.soldierCountry = (SoldierCountry)int.Parse(infos[10 + 1]);
+                        playerInformation[pid].player.soldierCountry = (SoldierCountry)r.players_country[kv.Key];
                         playerInformation[pid].player.playerId = pid; //assign id
                         playerInformation[pid].player.masterController = this;
-                        playerInformation[pid].position = new Vector3(float.Parse(infos[1]), float.Parse(infos[2]), float.Parse(infos[3]));
+                        playerInformation[pid].position = new Vector3(r.players_position[kv.Key][0], r.players_position[kv.Key][1], r.players_position[kv.Key][2]);
                         playerInformation[pid].player.playerTeam = pid % 2;
                         playerInformation[pid].online = true;
                         playerInformation[pid].UpdatePlayer(callTime * 2.5f, firstTime);
                     }
+                } else if (r.players_damaged[kv.Key] > 0) {
+                    //player
+                    float damage = r.players_damaged[kv.Key];
 
-
-                } else if (infos.Length > 2) { //player information
-                                               //retrieve damage
-                    float damage = float.Parse(infos[12].Split('|')[0]);
-                    string sender = infos[12].Split('|')[1];
-                    
-                    int senderId = int.Parse(infos[12].Split('|')[2]);
+                    int senderId = r.players_damaged_sender[kv.Key];
+                    string sender = r.players_active[senderId.ToString()];
 
                     if (damage > 0 && !player.dying && player.immuneTimer <= 0f) {
                         print("damaged: " + damage + " by " + sender);
@@ -611,9 +639,125 @@ public class NetworkManager : MonoBehaviour
                             }
                         }
                     }
-
                 }
             }
+            //foreach (string s in cutList) {
+            //    string[] infos = s.Split('=');
+            //    int pid = 0;
+            //    try {
+            //        pid = Convert.ToInt32("0x" + infos[0], 16);
+            //    } catch {
+            //        //print(infos[0]);
+            //    }
+            //    if (infos.Length > 2 && pid != playerId) { //legitimate information, not player
+            //        if (playerInformation.ContainsKey(pid)) {
+            //            playerInformation[pid].position = new Vector3(float.Parse(infos[1]), float.Parse(infos[2]), float.Parse(infos[3]));
+            //            playerInformation[pid].rotation = new Vector3(float.Parse(infos[4]), float.Parse(infos[5]), float.Parse(infos[6]));
+            //            playerInformation[pid].moving = int.Parse(infos[7]) == 1;
+            //            playerInformation[pid].running = int.Parse(infos[9]) == 1;
+            //            playerInformation[pid].weapon = int.Parse(infos[10].Substring(1));
+            //            playerInformation[pid].player.attachmentPrefabId = int.Parse(infos[10][0].ToString());
+            //            //if (playerInformation[pid].player.instantiatedGun != null && playerInformation[pid].player.instantiatedGun.attachment != playerInformation[pid].player.attachmentPrefabId) {
+            //            //    playerInformation[pid].player.instantiatedGun.attachment = playerInformation[pid].player.attachmentPrefabId;
+            //            //    playerInformation[pid].player.instantiatedGun.UpdateAttachments(playerInformation[pid].player.instantiatedGun.attachment);
+            //            //}
+            //            //print(playerInformation[pid].player.attachmentPrefabId);
+            //            playerInformation[pid].dying = int.Parse(infos[13]) == 1;
+            //            playerInformation[pid].spineRotation = float.Parse(infos[14]);
+            //            playerInformation[pid].crouchRotation = float.Parse(infos[15]);
+            //            playerInformation[pid].playerName = infos[16];
+            //            playerInformation[pid].pickupGunRotation = float.Parse(infos[17]);
+            //            int vehicleType = int.Parse(infos[18]);
+            //            if (vehicleType > 0) { //is vehicle
+            //                if (vehicleType == 1) {
+            //                    if (!playerInformation[pid].player.isVehicle) { //put player in tank
+            //                        playerInformation[pid].player.nearbyTank = map.tanks[int.Parse(infos[19])];
+            //                        playerInformation[pid].player.RideVehicle();
+            //                    } else {
+            //                        Transform ht = playerInformation[pid].player.nearbyTank.tankSetUp.tankHead.transform;
+            //                        ht.eulerAngles = new Vector3(ht.eulerAngles.x, float.Parse(infos[20]), ht.eulerAngles.z);
+            //                        playerInformation[pid].player.nearbyTank.tankSetUp.tankTurret.transform.localEulerAngles = new Vector3(float.Parse(infos[21]), 0f, 0f);
+            //                    }
+            //                } else if (vehicleType == 2) {
+            //                    if (!playerInformation[pid].player.isVehicle) { //put player in tank
+            //                        playerInformation[pid].player.nearbyPlane = map.airplanes[int.Parse(infos[19])];
+            //                        playerInformation[pid].player.RideVehicle();
+            //                    } else {
+            //                        playerInformation[pid].player.nearbyPlane.planeSetUp.currentSpeed = float.Parse(infos[20]);
+            //                    }
+            //                } else if (vehicleType == 3) { //blow up vehicle
+            //                    if (playerInformation[pid].player.isVehicle) { //put player in tank
+            //                        if (playerInformation[pid].player.isPlane) {
+            //                            playerInformation[pid].player.nearbyPlane.BlowUp();
+            //                        } else {
+            //                            playerInformation[pid].player.nearbyTank.BlowUp();
+            //                        }
+            //                        playerInformation[pid].player.ExitVehicle(true);
+            //                    }
+            //                }
+            //            } else { //check to get out of tank
+            //                if (playerInformation[pid].player.isVehicle) {
+
+            //                    playerInformation[pid].player.ExitVehicle(true);
+            //                }
+            //            }
+
+            //            if (infos[8] != "0") {
+            //                playerInformation[pid].shootingCount = int.Parse(infos[8].Split('|')[0]);
+            //                playerInformation[pid].shootingCode = int.Parse(infos[8].Split('|')[1]);
+            //            }
+            //            playerInformation[pid].online = true;
+            //            playerInformation[pid].UpdatePlayer(callTime * 2.5f, firstTime);
+
+
+            //        } else if (int.Parse(infos[10 + 1]) != -1) {
+            //            playerInformation.Add(pid, new SoldierData());
+            //            playerInformation[pid].player = Instantiate(playerPrefab).GetComponent<SoldierAnimator>();
+            //            playerInformation[pid].player.soldierCountry = (SoldierCountry)int.Parse(infos[10 + 1]);
+            //            playerInformation[pid].player.playerId = pid; //assign id
+            //            playerInformation[pid].player.masterController = this;
+            //            playerInformation[pid].position = new Vector3(float.Parse(infos[1]), float.Parse(infos[2]), float.Parse(infos[3]));
+            //            playerInformation[pid].player.playerTeam = pid % 2;
+            //            playerInformation[pid].online = true;
+            //            playerInformation[pid].UpdatePlayer(callTime * 2.5f, firstTime);
+            //        }
+
+
+            //    } else if (infos.Length > 2) { //player information
+            //                                   //retrieve damage
+            //        float damage = float.Parse(infos[12].Split('|')[0]);
+            //        string sender = infos[12].Split('|')[1];
+
+            //        int senderId = int.Parse(infos[12].Split('|')[2]);
+
+            //        if (damage > 0 && !player.dying && player.immuneTimer <= 0f) {
+            //            print("damaged: " + damage + " by " + sender);
+            //            if (player.isVehicle) {
+            //                if (player.isPlane) {
+            //                    float prevHp = player.nearbyPlane.health;
+            //                    player.nearbyPlane.health -= damage;
+            //                    if (prevHp > 0f && player.nearbyPlane.health <= 0f) {
+            //                        killerId = senderId;
+            //                    }
+            //                } else {
+            //                    float prevHp = player.nearbyPlane.health;
+            //                    player.nearbyTank.health -= damage;
+            //                    if (prevHp > 0f && player.nearbyTank.health <= 0f) {
+            //                        killerId = senderId;
+            //                    }
+            //                }
+            //            } else {
+            //                player.health -= damage;
+            //                if (player.health <= 0f) {
+            //                    killerId = senderId;
+            //                    latestMessage = sender + " killed " + MyPlayerPrefs.GetString("playerName");
+            //                    cannotChangeLatest = true;
+            //                }
+            //            }
+            //        }
+
+            //    }
+            //}
             if (firstTime) {
                 Destroy(loadingScreen.gameObject);
                 player.playerId = playerId;
@@ -632,6 +776,7 @@ public class NetworkManager : MonoBehaviour
             print(str);
             print(e);
         }
+        
     }
     IEnumerator RemoveKey(int key) {
         yield return null;

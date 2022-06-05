@@ -27,6 +27,7 @@ public class ServerBar : MonoBehaviour {
     void Update()
     {
         if (gameMode != -1) {
+//            print(gameMode);
             gameModeText.text = CustomFunctions.TranslateText(gameModes[gameMode]);
         }
     }

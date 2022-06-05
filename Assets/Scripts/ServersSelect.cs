@@ -43,11 +43,12 @@ public class ServersSelect : MonoBehaviour {
         case 0:
             r = UnityWebRequest.Get("http://www.retrocombat.com:8001/servers");
             break;
+        //case 1:
+        //    r = UnityWebRequest.Get("http://cn.retrocombat.com:8001/servers");
+        //    break;
         case 1:
-            r = UnityWebRequest.Get("http://cn.retrocombat.com:8001/servers");
-            break;
-        case 2:
-            r = UnityWebRequest.Get("http://us.retrocombat.com:8001/servers");
+            //TODO: TEMPORARY IP REDIRECT TO US SERVER
+            r = UnityWebRequest.Get("http://47.88.27.128:8001/servers");
             break;
         }
         
@@ -122,11 +123,12 @@ public class ServersSelect : MonoBehaviour {
             yield return r.SendWebRequest();
             if (r.downloadHandler.text != "" && s != null) {
                 string message = r.downloadHandler.text.Substring(1, r.downloadHandler.text.Length - 2);
-                //print(message);
+//                print(message);
                 if (message.Split('|').Length >= 2) {
                     try {
                         s.mapNameDisplayer.text = CustomFunctions.TranslateText(mapNames[int.Parse(message.Split('|')[0])]);
                         s.joinTex.text = CustomFunctions.TranslateText("Join") + " (" + message.Split('|')[1] + " " + CustomFunctions.TranslateText("Online") + ")";
+
                         int.TryParse(message.Split('|')[2], out s.gameMode);
                     } catch {
                     }
