@@ -123,11 +123,11 @@
       loader.querySelector(".spinner").style.display = "none";
     }
     unityInstance.progress.style.transform = `scaleX(${progress})`;
-    if (progress === 1 && !unityInstance.removeTimeout) {
-      unityInstance.removeTimeout = setTimeout(function() {
-          loader.style.display = "none";
-      }, 2000); //hides the logo
-    }
+    // if (progress === 1 && !unityInstance.removeTimeout) {
+    //   unityInstance.removeTimeout = setTimeout(function() {
+    //       loader.style.display = "none";
+    //   }, 2000); //hides the logo
+    // }
   }
   </script>
 

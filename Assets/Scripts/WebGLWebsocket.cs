@@ -19,27 +19,36 @@ public class WebGLWebsocket : MonoBehaviour {
 
     [DllImport("__Internal")]
     private static extern void WebSocketClose();
-//#if !UNITY_EDITOR && UNITY_WEBGL
+
     public void BeginWebsocket(string uri) {
         WebSocketInit(uri);
     }
     public void CloseWebsocket() {
         WebSocketClose();
     }
+    string lastString = "";
     public void ReceivedWebsocket(string message) {
         //code is here
-        if (message.Split('|').Length == 3) {
+        bool isJson = true;
+        message = lastString + message;
+        try {
+            NetworkManager.Room roomTest = (NetworkManager.Room)MyJsonUtility.FromJson(typeof(NetworkManager.Room), message);
+        } catch {
+            isJson = false;
+        }
+        if (!isJson && message.Split('|').Length != 3) {
+            //cannot be parsed so is stored
+            lastString += message;
+            print("waiting");
+            return;
+        }
+        
+        if (!isJson && message.Split('|').Length == 3) {
             networkMaster.ReceivedId(int.Parse(message.Split('|')[0]), int.Parse(message.Split('|')[1]), int.Parse(message.Split('|')[2]));
-        } else if (message != "invalid format") {
+        } else if (isJson) {
             networkMaster.UpdatePlayers(message);
         }
-        //if (message.Split('|').Length == 2) {
-        //    networkMaster.ReceivedId(int.Parse(message.Split('|')[0]), int.Parse(message.Split('|')[1]));
-        //} else if (message != "invalid format") {
-        //    print("Received: " + message);
-        //    networkMaster.UpdatePlayers(message);
-
-        //}
+        lastString = "";
     }
     public void OnConnected() {
         StartCoroutine(TimedRetriver());

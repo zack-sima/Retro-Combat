@@ -18,10 +18,10 @@ public class AdMobInitializer : MonoBehaviour {
         string rewardedUnitId = "ca-app-pub-9659065879138366/2861179478";
         string interstitialUnitId = "ca-app-pub-9659065879138366/8723525028";
 #elif UNITY_IOS
-        //string rewardedUnitId = "ca-app-pub-9659065879138366/6660823685"; /* "ca-app-pub-3940256099942544/1712485313";*/ //test placement right now
-        string rewardedUnitId = "ca-app-pub-9659065879138366/6507891386"; //China iOS
-        //string interstitialUnitId = "ca-app-pub-9659065879138366/4365832833";
-        string interstitialUnitId = "ca-app-pub-9659065879138366/8052390423"; //China iOS
+        string rewardedUnitId = "ca-app-pub-9659065879138366/6660823685"; /* "ca-app-pub-3940256099942544/1712485313";*/ //test placement right now
+        //string rewardedUnitId = "ca-app-pub-9659065879138366/6507891386"; //China iOS
+        string interstitialUnitId = "ca-app-pub-9659065879138366/4365832833";
+        //string interstitialUnitId = "ca-app-pub-9659065879138366/8052390423"; //China iOS
 #else
         string rewardedUnitId = "unexpected_platform";
         string interstitialUnitId = "unexpected_platform";
