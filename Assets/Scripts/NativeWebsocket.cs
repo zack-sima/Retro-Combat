@@ -11,7 +11,9 @@ public class NativeWebsocket : MonoBehaviour {
     public NetworkManager networkMaster;
     Uri u;
     ClientWebSocket cws = null;
-    ArraySegment<byte> buf = new ArraySegment<byte>(new byte[1024]);
+    
+    //TODO: make this buffer size dynamic... if data can't be fully parsed it's because of this! Don't need endofmessage anymore
+    ArraySegment<byte> buf = new ArraySegment<byte>(new byte[16384]);
     public void EstablishWebsocket(Uri uri) {
         u = uri;
         Connect();
@@ -63,6 +65,7 @@ public class NativeWebsocket : MonoBehaviour {
         threadWaiting = true;
         //NOTE: needs to be received completely; check with WebGL websocket
         WebSocketReceiveResult r = await cws.ReceiveAsync(buf, CancellationToken.None);
+//        print(r.Count);
         threadWaiting = false;
 
         if (!r.EndOfMessage) {

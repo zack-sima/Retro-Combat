@@ -6,6 +6,7 @@ mergeInto(LibraryManager.library, {
 
 		this.socket.onmessage = function(event) {
 			//console.log(event.data);
+			//NOTE: WebGLMaster is name of GAMEOBJECT INSIDE EDITOR... must match to send data
 			unityGame.SendMessage("WebGLMaster", "ReceivedWebsocket", event.data);
 		}
 		this.socket.onopen = function(event) {

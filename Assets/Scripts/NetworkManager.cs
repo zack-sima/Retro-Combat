@@ -478,8 +478,8 @@ public class NetworkManager : MonoBehaviour
             Dictionary<int, int> team1Scores = new Dictionary<int, int>();
             Dictionary<int, int> team2Scores = new Dictionary<int, int>();
 
-            team2Scores.Add(-1, r.scores["-1"]);
-            team2Scores.Add(-2, r.scores["-2"]);
+            //team1Scores.Add(-1, r.scores["-1"]);
+            //team2Scores.Add(-2, r.scores["-2"]);
             foreach (KeyValuePair<string, int> kv in r.scores) {
                 try {
                     if (int.Parse(kv.Key) % 2 == 0) {
