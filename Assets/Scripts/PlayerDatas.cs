@@ -10,7 +10,7 @@ using System;
 public enum Perks {None, FastReload, MoreHealthLessSpeed, LessRecoil, MoreSwift, MoreDamageLessHealth, MoreGrenadesLessAmmo, FasterShooting}
 public class PlayerDatas : MonoBehaviour {
     public SaveData myData;
-
+    public static PlayerDatas instance;
 
     public GameObject popupPrefab;
     public Text moneyText; 
@@ -181,6 +181,7 @@ public class PlayerDatas : MonoBehaviour {
         }
     }
     void Awake() {
+        instance = this;
         myData = BinaryPlayerSave.LoadData();
         StartCoroutine(CheckTime());
         try {
