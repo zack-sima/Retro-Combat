@@ -5,6 +5,12 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Shop2Manager : MonoBehaviour {
+    public GameObject redeemPopupPrefab;
+    public void RedeemPopup() {
+        Transform t = Instantiate(redeemPopupPrefab, GameObject.Find("Canvas").transform).transform;
+        t.localPosition = Vector3.zero;
+
+    }
     public void ToScene(int index) {
         SceneManager.LoadScene(index);
     }
@@ -15,9 +21,6 @@ public class Shop2Manager : MonoBehaviour {
 
     public void loadScene(int index) {
         SceneManager.LoadScene(index);
-    }
-    public void ToShop1() {
-        SceneManager.LoadScene(5);
     }
     public void BeginPurchase() {
         foreach (Button b in disableButtons)

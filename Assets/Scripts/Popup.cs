@@ -10,6 +10,7 @@ public class Popup : MonoBehaviour {
     public bool isDisconnect; //reconnect for disconnected bot
     public string embedLink;
     public Button primaryButton;
+
     public void ReloadCurrentScene() {
         NetworkManager net = GameObject.Find("NetworkMaster").GetComponent<NetworkManager>();
         net.CloseWebsockets();
@@ -39,18 +40,11 @@ public class Popup : MonoBehaviour {
         net.chatInput.DeactivateInputField();
         DismissPopup();
     }
-    void Start()
-    {
+    void Start() {
         Cursor.lockState = CursorLockMode.None;
         if (isDisconnect && GameObject.Find("NetworkMaster").GetComponent<NetworkManager>().player.useBotControls && MyPlayerPrefs.GetInt("rejoin") == 1) {
             //auto reconnect to game
             ChangeScene(1);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
